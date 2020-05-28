@@ -1,0 +1,11 @@
+{
+  "name": "blockchain",
+  "description": "Blockchain implementation",
+  "author": "Nick Zbiegien",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": "12.16.3"
+  }
+}
