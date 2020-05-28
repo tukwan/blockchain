@@ -8,9 +8,13 @@
   "engines": {
     "node": "12.16.3"
   },
+  "scripts": {
+    "test": "jest --watchAll"
+  },
   "devDependencies": {
     "bs58": "^4.0.1",
     "crypto-js": "^4.0.0",
-    "elliptic": "^6.5.2"
+    "elliptic": "^6.5.2",
+    "jest": "^26.0.1"
   }
 }
