@@ -7,5 +7,10 @@
   "private": true,
   "engines": {
     "node": "12.16.3"
+  },
+  "devDependencies": {
+    "bs58": "^4.0.1",
+    "crypto-js": "^4.0.0",
+    "elliptic": "^6.5.2"
   }
 }
