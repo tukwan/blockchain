@@ -47,7 +47,7 @@ describe('Block', () => {
     })
 
     it('creates a `hash` SHA-256 based on the proper inputs', () => {
-      const inputs = [ minedBlock.timestamp, lastBlock.lastHash, data ]
+      const inputs = [ minedBlock.timestamp, lastBlock.hash, data ]
       expect(minedBlock.hash).toEqual(cryptoHash(...inputs))
     })
 
