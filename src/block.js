@@ -11,6 +11,10 @@ class Block {
   static genesis() {
     return new this(GENESIS_DATA)
   }
+
+  static mineBlock() {
+
+  }
 }
 
 module.exports = Block
