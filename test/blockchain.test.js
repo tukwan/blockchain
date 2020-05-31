@@ -22,8 +22,9 @@ describe('Blockchain', () => {
   describe('isValidChain()', () => {
     describe('when the chain does not start with the genesis block', () => {
       it('returns false', () => {
+        blockchain = new Blockchain()
         blockchain.chain[0] = { data: 'fake block' }
-        expect(Blockchain.isValidChain(blockchain.chain).toBe(false))
+        expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
       })
     })
 
@@ -38,20 +39,20 @@ describe('Blockchain', () => {
       describe('and a lastHash reference has change', () => {
         it('returns false', () => {
           blockchain.chain[2].hash = 'fake hash'
-          expect(Blockchain.isValidChain(blockchain.chain).toBe(false))
+          expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
         })
       })
 
       describe('and the chain contains a block with an invalid field ', () => {
         it('returns false', () => {
           blockchain.chain[2].data = 'fake data'
-          expect(Blockchain.isValidChain(blockchain.chain).toBe(false))
+          expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
         })
       })
 
       describe('and the chain does not contain any invalid blocks ', () => {
         it('returns true', () => {
-          expect(Blockchain.isValidChain(blockchain.chain).toBe(true))
+          expect(Blockchain.isValidChain(blockchain.chain)).toBe(true)
         })
       })
     })
