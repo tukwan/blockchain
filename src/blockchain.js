@@ -20,14 +20,25 @@ class Blockchain {
     for (let i = 1; i < chain.length; i++) {
       const { timestamp, lastHash, hash, data } = chain[i]
       const actualLastHash = chain[i - 1].hash
-
       if (lastHash !== actualLastHash) return false
-
       const validateHash = cryptoHash(timestamp, lastHash, data)
       if (hash !== validateHash) return false
     }
 
     return true
+  }
+
+  replaceChain(chain) {
+    if (chain.length <= this.chain.length) {
+      console.error('chain is not long enough', chain)
+      return
+    }
+    if (!Blockchain.isValidChain(chain)) {
+      console.error('chain is invalid', chain)
+      return
+    }
+    console.log('replacing chain with ', chain)
+    this.chain = chain
   }
 }
 

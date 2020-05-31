@@ -1,8 +1,15 @@
 const Blockchain = require('../src/blockchain')
 const Block = require('../src/block')
+const R = require('ramda')
 
 describe('Blockchain', () => {
-  let blockchain = new Blockchain()
+  let blockchain, newChain, originalChain
+
+  beforeEach(() => {
+    blockchain = new Blockchain()
+    newChain = new Blockchain()
+    originalChain = R.clone(blockchain.chain)
+  })
 
   it('containas a `chain` Array of instance', () => {
     expect(blockchain.chain instanceof Array).toBe(true)
@@ -30,7 +37,6 @@ describe('Blockchain', () => {
 
     describe('when the chain starts with the genesis block and has muliple blocks', () => {
       beforeEach(() => {
-        blockchain = new Blockchain()
         blockchain.addBlock({ data: 'a1' })
         blockchain.addBlock({ data: 'a2' })
         blockchain.addBlock({ data: 'a3' })
@@ -53,6 +59,39 @@ describe('Blockchain', () => {
       describe('and the chain does not contain any invalid blocks ', () => {
         it('returns true', () => {
           expect(Blockchain.isValidChain(blockchain.chain)).toBe(true)
+        })
+      })
+    })
+  })
+
+  describe('replaceChain()', () => {
+    describe('when the new chain is not longer', () => {
+      it('does not repleace the chain', () => {
+        newChain.chain[0] = { data: 'a1' }
+        blockchain.replaceChain(newChain.chain)
+        expect(blockchain.chain).toEqual(originalChain)
+      })
+    })
+
+    describe('when the new chain is longer', () => {
+      beforeEach(() => {
+        newChain.addBlock({ data: 'a1' })
+        newChain.addBlock({ data: 'a2' })
+        newChain.addBlock({ data: 'a3' })
+      })
+
+      describe('and the new chain is invalid', () => {
+        it('does not repleace the chain', () => {
+          newChain.chain[2].hash = 'fake hash'
+          blockchain.replaceChain(newChain.chain)
+          expect(blockchain.chain).toEqual(originalChain)
+        })
+      })
+
+      describe('and the new chain is valid', () => {
+        it('replaces the chain ', () => {
+          blockchain.replaceChain(newChain.chain)
+          expect(blockchain.chain).toEqual(newChain.chain)
         })
       })
     })
