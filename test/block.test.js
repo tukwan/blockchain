@@ -7,13 +7,17 @@ describe('Block', () => {
   const lastHash = 'lastHash'
   const hash = 'hash'
   const data = ['a', 'b']
+  const nonce = 1
+  const difficulty = 1
 
-  const block = new Block({ timestamp, lastHash, hash, data })
+  const block = new Block({ timestamp, lastHash, hash, nonce, difficulty, data })
 
   it('has timestamp, lastHash, hash and data', () => {
-    expect(block.timestamp).toEqual(timestamp) //?
+    expect(block.timestamp).toEqual(timestamp)
     expect(block.lastHash).toEqual(lastHash)
     expect(block.hash).toEqual(hash)
+    expect(block.nonce).toEqual(nonce)
+    expect(block.difficulty).toEqual(difficulty)
     expect(block.data).toEqual(data)
   })
 
@@ -46,13 +50,25 @@ describe('Block', () => {
       expect(minedBlock.lastHash).toBe(lastBlock.hash)
     })
 
+    it('sets the `data`', () => {
+      expect(minedBlock.data).toBe(data)
+    })
+
     it('creates a `hash` SHA-256 based on the proper inputs', () => {
-      const inputs = [ minedBlock.timestamp, lastBlock.hash, data ]
+      const inputs = [
+        minedBlock.timestamp,
+        lastBlock.hash,
+        minedBlock.nonce,
+        minedBlock.difficulty,
+        data,
+      ]
       expect(minedBlock.hash).toEqual(cryptoHash(...inputs))
     })
 
-    it('sets the `data`', () => {
-      expect(minedBlock.data).toBe(data)
+    it('sets a `hash` that matches the difficulty criteria', () => {
+      expect(minedBlock.hash.substring(0, minedBlock.difficulty)).toEqual(
+        '0'.repeat(minedBlock.difficulty)
+      )
     })
   })
 })
