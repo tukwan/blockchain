@@ -1,6 +1,7 @@
+const R = require('ramda')
 const Blockchain = require('../src/blockchain')
 const Block = require('../src/block')
-const R = require('ramda')
+const cryptoHash = require('../src/utils/crypto-hash')
 
 describe('Blockchain', () => {
   let blockchain, newChain, originalChain
@@ -56,6 +57,24 @@ describe('Blockchain', () => {
         })
       })
 
+      describe('and the chain contains a block with a jumped difficulty', () => {
+        it('returns false', () => {
+          const chain = blockchain.chain
+          const lastBlock = chain[chain.length - 1]
+          const timestamp = Date.now()
+          const lastHash = lastBlock.hash
+          const nonce = 0
+          const data = []
+          const difficulty = lastBlock.difficulty - 2
+          const hash = cryptoHash(timestamp, lastHash, nonce, data, difficulty)
+
+          const badBlock = new Block({ timestamp, lastHash, nonce, data, difficulty, hash })
+          chain.push(badBlock)
+
+          expect(Blockchain.isValidChain(chain)).toBe(false)
+        })
+      })
+
       describe('and the chain does not contain any invalid blocks ', () => {
         it('returns true', () => {
           expect(Blockchain.isValidChain(blockchain.chain)).toBe(true)
@@ -96,6 +115,4 @@ describe('Blockchain', () => {
       })
     })
   })
-
-
 })
