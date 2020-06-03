@@ -1,11 +1,17 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const Blockchain = require('./src/blockchain')
+const PubSub = require('./pubsub')
 
 const app = express()
 const PORT = 3000
 app.use(bodyParser.json())
 const blockchain = new Blockchain()
+const pubsub = new PubSub({ blockchain })
+
+setTimeout(() => {
+  pubsub.broadcastChain()
+}, 1000)
 
 app.get('/api/blocks', (req, res) => res.json(blockchain.chain))
 
