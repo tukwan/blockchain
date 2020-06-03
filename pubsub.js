@@ -39,7 +39,6 @@ class PubSub {
     }
   }
 
-  // PubNub fallback fix
   publish({ channel, message }) {
     this.pubnub.publish({ message, channel })
   }
