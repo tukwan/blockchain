@@ -12,7 +12,8 @@
   "scripts": {
     "test": "jest --watchAll",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "dev-peer": "GENERATE_PEER_PORT='true' nodemon index.js"
   },
   "devDependencies": {
     "bs58": "^4.0.1",
