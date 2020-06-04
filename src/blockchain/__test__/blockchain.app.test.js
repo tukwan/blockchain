@@ -1,7 +1,7 @@
 const R = require('ramda')
-const Blockchain = require('../src/blockchain')
-const Block = require('../src/block')
-const cryptoHash = require('../src/utils/crypto-hash')
+const Blockchain = require('../blockchain.app')
+const Block = require('../block')
+const cryptoHash = require('../../utils/crypto-hash')
 
 describe('Blockchain', () => {
   let blockchain, newChain, originalChain
