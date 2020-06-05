@@ -1,5 +1,5 @@
 const Wallet = require('../wallet.app')
-const { verifySignature } = require('../../utils/ec')
+const { verifySignature } = require('../../utils')
 
 describe('Wallet', () => {
   let wallet
