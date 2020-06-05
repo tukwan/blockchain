@@ -1,7 +1,6 @@
 const MINE_RATE = 1000
 const INIT_DIFFICULTY = 1
-
-STARTING_BALANCE = 1000
+const STARTING_BALANCE = 1000
 
 const GENESIS_DATA = {
   timestamp: 1,
@@ -12,4 +11,4 @@ const GENESIS_DATA = {
   data: []
 }
 
-module.exports = { GENESIS_DATA, MINE_RATE }
+module.exports = { GENESIS_DATA, MINE_RATE, STARTING_BALANCE }
