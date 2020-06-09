@@ -7,13 +7,15 @@ const credentials = {
 }
 
 const CHANNELS = {
-  TEST: 'TEST',
   BLOCKCHAIN: 'BLOCKCHAIN',
+  TRANSACTION: 'TRANSACTION',
 }
 
 class PubSub {
-  constructor({ blockchain }) {
+  constructor({ blockchain, transactionPool, wallet }) {
     this.blockchain = blockchain
+    this.transactionPool = transactionPool
+    this.wallet = wallet
     this.pubnub = new PubNub(credentials)
     this.pubnub.subscribe({ channels: Object.values(CHANNELS) })
     this.pubnub.addListener(this.listener())
@@ -32,8 +34,19 @@ class PubSub {
         const parsedMessage = JSON.parse(message)
         console.log(`Message received. Channel: ${channel}. Message: ${message}`)
 
-        if (channel === CHANNELS.BLOCKCHAIN) {
-          this.blockchain.replaceChain(parsedMessage)
+        switch (channel) {
+          case CHANNELS.BLOCKCHAIN:
+            this.blockchain.replaceChain(parsedMessage)
+            break
+          case CHANNELS.TRANSACTION:
+            // pubnub is not able to prevent self-broadcasts
+            const isEmptyTransaction = !this.transactionPool.existingTransaction({
+              inputAddress: this.wallet.publicKey,
+            })
+            if (isEmptyTransaction) this.transactionPool.setTransaction(parsedMessage)
+            break
+          default:
+            break
         }
       },
     }
@@ -47,6 +60,13 @@ class PubSub {
     this.publish({
       channel: CHANNELS.BLOCKCHAIN,
       message: JSON.stringify(this.blockchain.chain),
+    })
+  }
+
+  broadcastTransaction(transaction) {
+    this.publish({
+      channel: CHANNELS.TRANSACTION,
+      message: JSON.stringify(transaction),
     })
   }
 }
