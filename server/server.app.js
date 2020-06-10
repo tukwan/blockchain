@@ -2,9 +2,11 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const Blockchain = require('../core/blockchain/blockchain.app')
-const PubSub = require('./core/app/pubsub')
+const PubSub = require('../core/app/pubsub')
 const TransactionPool = require('../core/wallet/transaction-pool')
 const Wallet = require('../core/wallet/wallet.app')
+const TransactionMiner = require('../core/app/transaction-miner')
+
 
 const app = express()
 app.use(bodyParser.json())
@@ -13,6 +15,7 @@ const blockchain = new Blockchain()
 const transactionPool = new TransactionPool()
 const wallet = new Wallet()
 const pubsub = new PubSub({ blockchain, transactionPool, wallet })
+const transactionMiner = new TransactionMiner({ blockchain, transactionPool, wallet, pubsub })
 
 const DEFAULT_PORT = 3000
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`
@@ -49,6 +52,12 @@ app.post('/api/transact', (req, res) => {
 app.get('/api/transaction-pool-map', (req, res) => {
   return res.json(transactionPool.transactionMap)
 })
+
+app.get('/api/mine-transactions', (req, res) => {
+  transactionMiner.mineTransactions()
+  res.redirect('/api/blocks')
+})
+
 
 const syncWithRootState = () => {
   request(`${ROOT_NODE_ADDRESS}/api/blocks`, (err, res, body) => {
