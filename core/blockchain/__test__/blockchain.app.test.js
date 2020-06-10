@@ -4,12 +4,16 @@ const Block = require('../block')
 const { cryptoHash } = require('../../utils')
 
 describe('Blockchain', () => {
-  let blockchain, newChain, originalChain
+  let blockchain, newChain, originalChain, errorMock, logMock
 
   beforeEach(() => {
     blockchain = new Blockchain()
     newChain = new Blockchain()
     originalChain = R.clone(blockchain.chain)
+    errorMock = jest.fn()
+    global.console.error = errorMock
+    logMock = jest.fn()
+    global.console.log = logMock
   })
 
   it('containas a `chain` Array of instance', () => {
@@ -104,6 +108,7 @@ describe('Blockchain', () => {
           newChain.chain[2].hash = 'fake hash'
           blockchain.replaceChain(newChain.chain)
           expect(blockchain.chain).toEqual(originalChain)
+          expect(errorMock).toHaveBeenCalled()
         })
       })
 
@@ -111,6 +116,7 @@ describe('Blockchain', () => {
         it('replaces the chain ', () => {
           blockchain.replaceChain(newChain.chain)
           expect(blockchain.chain).toEqual(newChain.chain)
+          expect(logMock).toHaveBeenCalled()
         })
       })
     })
