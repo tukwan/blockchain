@@ -20,7 +20,7 @@ const DEFAULT_PORT = 3000
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`
 
 app.get('/api/blocks', (req, res) => {
-  return res.json(blockchain.chain)
+  res.json(blockchain.chain)
 })
 
 app.post('/api/mine', (req, res) => {
@@ -49,12 +49,17 @@ app.post('/api/transact', (req, res) => {
 })
 
 app.get('/api/transaction-pool-map', (req, res) => {
-  return res.json(transactionPool.transactionMap)
+  res.json(transactionPool.transactionMap)
 })
 
 app.get('/api/mine-transactions', (req, res) => {
   transactionMiner.mineTransactions()
   res.redirect('/api/blocks')
+})
+
+app.get('/api/wallet-info', (req, res) => {
+  const address = wallet.publicKey
+  res.json({ address, balance: Wallet.calculateBalance({ chain: blockchain.chain, address }) })
 })
 
 const syncWithRootState = () => {
