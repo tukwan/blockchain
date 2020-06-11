@@ -7,7 +7,6 @@ const TransactionPool = require('../core/wallet/transaction-pool')
 const Wallet = require('../core/wallet/wallet.app')
 const TransactionMiner = require('../core/app/transaction-miner')
 
-
 const app = express()
 app.use(bodyParser.json())
 
@@ -39,7 +38,7 @@ app.post('/api/transact', (req, res) => {
     if (transaction) {
       transaction.update({ senderWallet: wallet, recipient, amount })
     } else {
-      transaction = wallet.createTransaction({ recipient, amount })
+      transaction = wallet.createTransaction({ recipient, amount, chain: blockchain.chain })
     }
   } catch (error) {
     res.status(400).json({ type: 'error', message: error.message })
@@ -57,7 +56,6 @@ app.get('/api/mine-transactions', (req, res) => {
   transactionMiner.mineTransactions()
   res.redirect('/api/blocks')
 })
-
 
 const syncWithRootState = () => {
   request(`${ROOT_NODE_ADDRESS}/api/blocks`, (err, res, body) => {
