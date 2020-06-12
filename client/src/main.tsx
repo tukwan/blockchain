@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Blocks } from "./blocks";
 
 interface IWalletInfo {
   balance: string
@@ -26,6 +27,7 @@ export const Main = () => {
       <h1>Blockchain App</h1>
       <p>Address: {address}</p>
       <p>Balance: {balance}</p>
+      <Blocks />
     </div>
   )
 }
