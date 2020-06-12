@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from 'react'
 
-export const Main = () => {
-  const [blocks, setBlocks] = useState([])
+interface IWalletInfo {
+  balance: string
+  address: string
+}
 
+export const Main = () => {
+  const [walletInfo, setWalletInfo] = useState<IWalletInfo>({
+    balance: '',
+    address: '',
+  })
   useEffect(() => {
-    const fetchBlocks = async () => {
-      const response = await fetch('/api/blocks')
-      const blocks = await response.json()
-      console.log(blocks)
-      setBlocks(blocks)
+    const fetchWalletInfo = async () => {
+      const response = await fetch('/api/wallet-info')
+      const walletInfo = await response.json()
+      setWalletInfo(walletInfo)
     }
-    fetchBlocks()
+    fetchWalletInfo()
   }, [])
+
+  const { address, balance } = walletInfo
 
   return (
     <div>
       <h1>Blockchain App</h1>
-      <code>
-        <ul>
-          {blocks.map((block) => (
-            <li key={block.hash}>{block.hash}</li>
-          ))}
-        </ul>
-      </code>
+      <p>Address: {address}</p>
+      <p>Balance: {balance}</p>
     </div>
   )
 }
