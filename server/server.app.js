@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const path = require('path')
 const request = require('request')
 const Blockchain = require('../core/blockchain/blockchain.app')
 const PubSub = require('../core/app/pubsub')
@@ -10,13 +11,19 @@ const TransactionMiner = require('../core/app/transaction-miner')
 const app = express()
 app.use(bodyParser.json())
 
+// Client react-app
+app.use(express.static(path.join(__dirname, '../client/build')))
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'))
+})
+
 const blockchain = new Blockchain()
 const transactionPool = new TransactionPool()
 const wallet = new Wallet()
 const pubsub = new PubSub({ blockchain, transactionPool, wallet })
 const transactionMiner = new TransactionMiner({ blockchain, transactionPool, wallet, pubsub })
 
-const DEFAULT_PORT = 3000
+const DEFAULT_PORT = 8080
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`
 
 app.get('/api/blocks', (req, res) => {

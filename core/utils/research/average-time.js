@@ -1,4 +1,4 @@
-const Blockchain = require('../src/blockchain')
+const Blockchain = require('../../blockchain/blockchain.app')
 
 const blockchain = new Blockchain()
 
