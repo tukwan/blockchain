@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FC } from 'react'
+import { Block, IBlock } from './block'
 
-interface IBlock {
-  data: []
-  difficulty: number
-  hash: string
-  lastHash: string
-  nonce: number
-  timestamp: Date
-}
 type IBlocks = IBlock[]
 
-export const Blocks = () => {
+export const Blocks: FC = () => {
   const [blocks, setBlocks] = useState<IBlocks>([])
   useEffect(() => {
     const fetchBlocks = async () => {
@@ -24,9 +17,13 @@ export const Blocks = () => {
   return (
     <div>
       <h2>Blocks:</h2>
-      {blocks.map((block) => (
-        <div key={block.hash}>{block.hash}</div>
-      ))}
+      <ul>
+        {blocks.map((block) => (
+          <li key={block.hash}>
+            <Block {...block} />
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

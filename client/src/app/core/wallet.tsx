@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { Blocks } from "./blocks";
+import React, { useState, useEffect, FC } from 'react'
 
 interface IWalletInfo {
   balance: string
   address: string
 }
 
-export const Main = () => {
-  const [walletInfo, setWalletInfo] = useState<IWalletInfo>({
-    balance: '',
-    address: '',
-  })
+const initWalletInfo = {
+  balance: '',
+  address: '',
+}
+
+export const Wallet: FC = () => {
+  const [walletInfo, setWalletInfo] = useState<IWalletInfo>(initWalletInfo)
   useEffect(() => {
     const fetchWalletInfo = async () => {
       const response = await fetch('/api/wallet-info')
@@ -21,13 +22,15 @@ export const Main = () => {
   }, [])
 
   const { address, balance } = walletInfo
-
   return (
     <div>
-      <h1>Blockchain App</h1>
-      <p>Address: {address}</p>
-      <p>Balance: {balance}</p>
-      <Blocks />
+      <h2>Wallet:</h2>
+      <p>
+        <b>Address:</b> {address}
+      </p>
+      <p>
+        <b>Balance:</b> {balance}
+      </p>
     </div>
   )
 }
