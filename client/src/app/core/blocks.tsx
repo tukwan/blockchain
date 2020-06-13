@@ -20,7 +20,7 @@ export const Blocks: FC = () => {
       <ul>
         {blocks.map((block) => (
           <li key={block.hash}>
-            <Block {...block} />
+            <Block block={block} />
           </li>
         ))}
       </ul>
