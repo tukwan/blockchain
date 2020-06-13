@@ -4,7 +4,6 @@ interface IWalletInfo {
   balance: string
   address: string
 }
-
 const initWalletInfo = {
   balance: '',
   address: '',
@@ -26,7 +25,7 @@ export const Wallet: FC = () => {
     <div>
       <h2>Wallet:</h2>
       <p>
-        <b>Address:</b> {address}
+        <b>Address:</b> {`${address.substring(0, 35)}...`}
       </p>
       <p>
         <b>Balance:</b> {balance}
