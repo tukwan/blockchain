@@ -7,6 +7,7 @@ const PubSub = require('../core/app/pubsub')
 const TransactionPool = require('../core/wallet/transaction-pool')
 const Wallet = require('../core/wallet/wallet.app')
 const TransactionMiner = require('../core/app/transaction-miner')
+const seedBlockchain = require('../core/app/seed-blockchain')
 
 const app = express()
 app.use(bodyParser.json())
@@ -86,6 +87,9 @@ const syncWithRootState = () => {
     }
   })
 }
+
+// seed a blockchain
+seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
 
 // dev-peer
 let PEER_PORT

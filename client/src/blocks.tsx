@@ -16,7 +16,6 @@ export const Blocks = () => {
     const fetchBlocks = async () => {
       const response = await fetch('/api/blocks')
       const blocks = await response.json()
-      console.log(blocks)
       setBlocks(blocks)
     }
     fetchBlocks()
