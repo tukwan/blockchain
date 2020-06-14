@@ -5,16 +5,23 @@ interface ITransactionPool {
   [hash: string]: ITransaction
 }
 
+const POOL_INTERVAL_MS = 1000
+
 export const TransactionPool: FC = () => {
   const [transactionPoolMap, setTransactionPoolMap] = useState<ITransactionPool>({})
 
   useEffect(() => {
     const fetchTransactionPoolMap = async () => {
       const response = await fetch('/api/transaction-pool-map')
-      const transactionPoolMapResponse = await response.json()
-      setTransactionPoolMap(transactionPoolMapResponse)
+      const json = await response.json()
+      setTransactionPoolMap(json)
     }
     fetchTransactionPoolMap()
+
+    const intervalFetchPoolMap = setInterval(() => {
+      fetchTransactionPoolMap()
+    }, POOL_INTERVAL_MS)
+    return () => clearInterval(intervalFetchPoolMap)
   }, [])
 
   return (
