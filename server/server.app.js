@@ -72,6 +72,18 @@ app.get('/api/wallet-info', (req, res) => {
   res.json({ address, balance: Wallet.calculateBalance({ chain: blockchain.chain, address }) })
 })
 
+app.get('/api/known-addresses', (req, res) => {
+  const addressMap = {}
+  for (let block of blockchain.chain) {
+    for (let transaction of block.data) {
+      const recipient = Object.keys(transaction.outputMap)
+      recipient.forEach((recipient) => (addressMap[recipient] = recipient))
+    }
+  }
+
+  res.json(Object.keys(addressMap))
+})
+
 const syncWithRootState = () => {
   request(`${ROOT_NODE_ADDRESS}/api/blocks`, (err, res, body) => {
     if (!err && res.statusCode === 200) {

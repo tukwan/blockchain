@@ -5,7 +5,7 @@ interface ITransactionPool {
   [hash: string]: ITransaction
 }
 
-const POOL_INTERVAL_MS = 1000
+const POOL_INTERVAL_MS = 10000
 
 export const TransactionPool: FC = () => {
   const [transactionPoolMap, setTransactionPoolMap] = useState<ITransactionPool>({})

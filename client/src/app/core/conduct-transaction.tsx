@@ -1,4 +1,4 @@
-import React, { useState, FC, FormEvent, ChangeEvent } from 'react'
+import React, { useState, useEffect, FC, FormEvent, ChangeEvent } from 'react'
 
 interface IConductTxForm {
   recipient: string
@@ -12,6 +12,17 @@ const initConductTxForm = {
 export const ConductTransaction: FC = () => {
   const [form, setState] = useState<IConductTxForm>(initConductTxForm)
   const { recipient, amount } = form
+
+  const [knownAddresses, setKnownAddresses] = useState<any>([])
+
+  useEffect(() => {
+    const fetchKnownAddresses = async () => {
+      const response = await fetch('/api/known-addresses')
+      const json = await response.json()
+      setKnownAddresses(json)
+    }
+    fetchKnownAddresses()
+  }, [])
 
   const conductTx = async () => {
     const response = await fetch('/api/transact', {
@@ -37,19 +48,26 @@ export const ConductTransaction: FC = () => {
   }
 
   return (
-    <form onSubmit={printValues}>
-      <h2>Conduct a Transaction</h2>
-      <label>
-        Recipient:
-        <input value={recipient} name="recipient" onChange={updateField} />
-      </label>
+    <div>
+      <h2>Conduct a Transaction:</h2>
+      <h3>Known addresses:</h3>
+      {knownAddresses.map((knownAddresses) => (
+        <div key={knownAddresses}>{`${knownAddresses.substring(0, 35)}...`}</div>
+      ))}
       <br />
-      <label>
-        Amount:
-        <input value={amount} name="amount" onChange={updateField} />
-      </label>
-      <br />
-      <button>Submit</button>
-    </form>
+      <form onSubmit={printValues}>
+        <label>
+          Recipient:
+          <input value={recipient} name="recipient" onChange={updateField} />
+        </label>
+        <br />
+        <label>
+          Amount:
+          <input value={amount} name="amount" onChange={updateField} />
+        </label>
+        <br />
+        <button>Submit</button>
+      </form>
+    </div>
   )
 }
