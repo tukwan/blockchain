@@ -9,6 +9,8 @@ const Wallet = require('../core/wallet/wallet.app')
 const TransactionMiner = require('../core/app/transaction-miner')
 const seedBlockchain = require('../core/app/seed-blockchain')
 
+const isDevelopment = process.env.ENV === 'development'
+
 const app = express()
 app.use(bodyParser.json())
 
@@ -89,7 +91,7 @@ const syncWithRootState = () => {
 }
 
 // seed a blockchain
-seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
+if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
 
 // dev-peer
 let PEER_PORT
@@ -97,7 +99,7 @@ if (process.env.GENERATE_PEER_PORT === 'true') {
   PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000)
 }
 
-const PORT = PEER_PORT || DEFAULT_PORT
+const PORT = process.env.PORT || PEER_PORT || DEFAULT_PORT
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`)
 

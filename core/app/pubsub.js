@@ -32,7 +32,7 @@ class PubSub {
       message: (messageObject) => {
         const { channel, message } = messageObject
         const parsedMessage = JSON.parse(message)
-        console.log(`Message received. Channel: ${channel}. Message: ${message}`)
+        // console.log(`Message received. Channel: ${channel}. Message: ${message}`)
 
         switch (channel) {
           case CHANNELS.BLOCKCHAIN:
