@@ -24,9 +24,16 @@ export const TransactionPool: FC = () => {
     return () => clearInterval(intervalFetchPoolMap)
   }, [])
 
+  const fetchMineTransactions = async () => {
+    const response = await fetch('/api/mine-transactions')
+    const json = await response.json()
+    console.log('mined', json)
+  }
+
   return (
     <div>
       <h2>Transaction Pool:</h2>
+      <button onClick={fetchMineTransactions}>Mine Transactions</button>
       {Object.values(transactionPoolMap).map((transaction) => (
         <div key={transaction.id}>
           <hr />

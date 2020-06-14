@@ -17,8 +17,9 @@ export const ConductTransaction: FC = () => {
     const response = await fetch('/api/transact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ recipient, amount }),
+      body: JSON.stringify({ recipient, amount: Number(amount) }),
     })
+
     const tx = await response.json()
     console.log(tx)
   }
@@ -37,6 +38,7 @@ export const ConductTransaction: FC = () => {
 
   return (
     <form onSubmit={printValues}>
+      <h2>Conduct a Transaction</h2>
       <label>
         Recipient:
         <input value={recipient} name="recipient" onChange={updateField} />
