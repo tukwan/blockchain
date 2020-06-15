@@ -1,99 +1,75 @@
 module.exports = {
   root: true,
-  // extends: [
-  //   "react-app",
-  // ],
+  parser: '@typescript-eslint/parser',
+  extends: ['plugin:@typescript-eslint/recommended'],
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
   env: {
-    "browser": true,
-    "node": true,
-    "jest": true
+    browser: true,
+    node: true,
+    jest: true,
   },
   rules: {
-    "strict": [
-      "error",
-      "global"
-    ],
-    "array-bracket-spacing": [
-      "off"
-    ],
-    "comma-spacing": [
-      "error",
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-explicit-any': 1,
+    '@typescript-eslint/no-inferrable-types': [
+      'warn',
       {
-        "before": false,
-        "after": true
-      }
+        ignoreParameters: true,
+      },
     ],
-    "dot-notation": [
-      "error",
+    '@typescript-eslint/no-unused-vars': 'warn',
+    strict: ['error', 'global'],
+    'array-bracket-spacing': ['off'],
+    'comma-spacing': [
+      'error',
       {
-        "allowKeywords": true,
-        "allowPattern": ""
-      }
+        before: false,
+        after: true,
+      },
     ],
-    "eol-last": [
-      "error",
-      "always"
-    ],
-    "eqeqeq": [
-      "error",
-      "smart"
-    ],
-    "generator-star-spacing": [
-      "error",
-      "before"
-    ],
-    "indent": [
-      "error",
-      2
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "max-len": [
-      "error",
-      120,
-      2
-    ],
-    "no-debugger": "error",
-    "no-console": "warn",
-    "no-dupe-args": "error",
-    "no-dupe-keys": "error",
-    "no-mixed-spaces-and-tabs": [
-      "error",
-      "smart-tabs"
-    ],
-    "no-redeclare": [
-      "error",
+    'dot-notation': [
+      'error',
       {
-        "builtinGlobals": true
-      }
+        allowKeywords: true,
+        allowPattern: '',
+      },
     ],
-    "no-trailing-spaces": [
-      "error",
+    'eol-last': ['error', 'always'],
+    eqeqeq: ['error', 'smart'],
+    'generator-star-spacing': ['error', 'before'],
+    indent: ['error', 2],
+    'linebreak-style': ['error', 'unix'],
+    'max-len': ['error', 120, 2],
+    'no-debugger': 'error',
+    'no-console': 'warn',
+    'no-dupe-args': 'error',
+    'no-dupe-keys': 'error',
+    'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
+    'no-redeclare': [
+      'error',
       {
-        "skipBlankLines": false
-      }
+        builtinGlobals: true,
+      },
     ],
-    "no-undef": "error",
-    "no-use-before-define": "off",
-    "no-var": "error",
-    "object-curly-spacing": [
-      "error",
-      "always"
+    'no-trailing-spaces': [
+      'error',
+      {
+        skipBlankLines: false,
+      },
     ],
-    "prefer-const": "error",
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ],
-    "promise/always-return": "off",
-    "promise/avoid-new": "off",
-    "prefer-arrow-callback": "error",
-    "no-var": "error",
+    'no-undef': 'error',
+    'no-use-before-define': 'off',
+    'no-var': 'error',
+    'object-curly-spacing': ['error', 'always'],
+    'prefer-const': 'error',
+    quotes: ['error', 'single'],
+    semi: ['error', 'never'],
+    'promise/always-return': 'off',
+    'promise/avoid-new': 'off',
+    'prefer-arrow-callback': 'error',
+    'no-var': 'error',
   },
 }
