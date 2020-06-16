@@ -1,7 +1,7 @@
-const hexToBinary = require('hex-to-binary')
+import hexToBinary from 'hex-to-binary'
 import { Block } from '../block'
-const { GENESIS_DATA, MINE_RATE } = require('../../config')
-const { cryptoHash } = require('../../utils')
+import { GENESIS_DATA, MINE_RATE } from '../../config'
+import { cryptoHash } from '../../utils'
 
 describe('Block', () => {
   const timestamp = 2000
@@ -29,14 +29,14 @@ describe('Block', () => {
       expect(genesisBlock instanceof Block).toBe(true)
     })
 
-    it('returns the gensis data', () => {
+    it('returns the genesis data', () => {
       expect(genesisBlock).toEqual(GENESIS_DATA)
     })
   })
 
   describe('mineBlock()', () => {
     const lastBlock = Block.genesis()
-    const data = 'block data'
+    const data = ['block data']
     const minedBlock = Block.mineBlock({ lastBlock, data })
 
     it('returns a Block instance', () => {
@@ -79,7 +79,7 @@ describe('Block', () => {
   })
 
   describe('adjustDifficulty()', () => {
-    it('raises the difficulty for a qucikly mined block', () => {
+    it('raises the difficulty for a quickly mined block', () => {
       expect(
         Block.adjustDifficulty({
           originalBlock: block,
@@ -99,7 +99,9 @@ describe('Block', () => {
 
     it('has a lower limit of 1', () => {
       block.difficulty = -1
-      expect(Block.adjustDifficulty({ originalBlock: block })).toEqual(1)
+      expect(Block.adjustDifficulty({ originalBlock: block, timestamp: block.timestamp })).toEqual(
+        1
+      )
     })
   })
 })

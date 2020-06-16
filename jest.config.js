@@ -8,6 +8,6 @@ module.exports = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-  testMatch: ['**/core/**/*.test.(ts|js)'],
+  testMatch: ['**/core/**/*.test.(ts)'],
   testEnvironment: 'node',
 }

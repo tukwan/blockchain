@@ -1,9 +1,14 @@
-const crypto = require('crypto')
-const elliptic = require('elliptic')
+import crypto from 'crypto'
+import elliptic from 'elliptic'
 
 const cryptoHash = (...inputs) => {
   const hash = crypto.createHash('sha256')
-  hash.update(inputs.map(input => JSON.stringify(input)).sort().join(''))
+  hash.update(
+    inputs
+      .map((input) => JSON.stringify(input))
+      .sort()
+      .join('')
+  )
   return hash.digest('hex')
 }
 
@@ -14,4 +19,4 @@ const verifySignature = ({ publicKey, data, signature }) => {
   return keyFromPublic.verify(cryptoHash(data), signature)
 }
 
-module.exports = { cryptoHash, ec, verifySignature }
+export { cryptoHash, ec, verifySignature }

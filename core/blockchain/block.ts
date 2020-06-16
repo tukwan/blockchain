@@ -1,17 +1,19 @@
-const hexToBinary = require('hex-to-binary')
-const { GENESIS_DATA, MINE_RATE } = require('../config')
-const { cryptoHash } = require('../utils')
+import hexToBinary from 'hex-to-binary'
+import { GENESIS_DATA, MINE_RATE } from '../config'
+import { cryptoHash } from '../utils'
 
-export class Block {
-  timestamp: Date
+export interface IBlock {
+  timestamp: number
   lastHash: string
   hash: string
   nonce: number
   difficulty: number
-  data: {}
-  adjustDifficulty({ originalBlock: Block, timestamp: Date  }): void
+  data: any[]
+}
+export interface Block extends IBlock {}
 
-  constructor({ timestamp, lastHash, hash, nonce, difficulty, data }) {
+export class Block implements IBlock {
+  constructor({ timestamp, lastHash, hash, nonce, difficulty, data }: IBlock) {
     this.timestamp = timestamp
     this.lastHash = lastHash
     this.hash = hash
@@ -20,13 +22,13 @@ export class Block {
     this.data = data
   }
 
-  static genesis() {
+  static genesis(): IBlock {
     return new this(GENESIS_DATA)
   }
 
-  static mineBlock({ lastBlock, data }) {
+  static mineBlock({ lastBlock, data }: { lastBlock: IBlock; data: any[] }): IBlock {
     const lastHash = lastBlock.hash
-    let hash, timestamp
+    let hash: string, timestamp: number
     let { difficulty } = lastBlock
     let nonce = 0
 
@@ -47,7 +49,13 @@ export class Block {
     })
   }
 
-  public static adjustDifficulty({ originalBlock, timestamp }) {
+  static adjustDifficulty({
+    originalBlock,
+    timestamp,
+  }: {
+    originalBlock: IBlock
+    timestamp: number
+  }): number {
     const { difficulty } = originalBlock
     if (difficulty < 1) return 1
     if (timestamp - originalBlock.timestamp > MINE_RATE) return difficulty - 1
