@@ -1,8 +1,8 @@
-const Wallet = require('../wallet.app')
-const Transaction = require('../transaction')
-const { verifySignature } = require('../../utils')
-const Blockchain = require('../../blockchain/blockchain.app')
-const { STARTING_BALANCE } = require('../../config')
+import { Wallet } from '../wallet.app'
+import { Transaction } from '../transaction'
+import { verifySignature } from '../../utils'
+import { Blockchain } from '../../blockchain/blockchain.app'
+import { STARTING_BALANCE } from '../../config'
 
 describe('Wallet', () => {
   let wallet
@@ -75,17 +75,17 @@ describe('Wallet', () => {
     })
 
     describe('and the chain is passed', () => {
-      it('calls the `Wallet.calculateBanace`', () => {
+      it('calls the `Wallet.calculateBalance`', () => {
         const originalCalculateBalance = Wallet.calculateBalance
-        const calculateBanaceMock = jest.fn()
-        Wallet.calculateBalance = calculateBanaceMock
+        const calculateBalanceMock = jest.fn()
+        Wallet.calculateBalance = calculateBalanceMock
         wallet.createTransaction({
           recipient: 'foo-recipient',
           amount: 10,
           chain: new Blockchain(),
         })
 
-        expect(calculateBanaceMock).toHaveBeenCalled()
+        expect(calculateBalanceMock).toHaveBeenCalled()
         Wallet.calculateBalance = originalCalculateBalance
       })
     })
@@ -179,7 +179,7 @@ describe('Wallet', () => {
           blockchain.addBlock({ data: [nextBlockTransaction] })
         })
 
-        it('includes the output amounts in the retutned balance', () => {
+        it('includes the output amounts in the returned balance', () => {
           Wallet.calculateBalance({
             chain: blockchain.chain,
             address: wallet.publicKey,

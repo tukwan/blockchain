@@ -1,26 +1,34 @@
-const Transaction = require('./transaction')
-const { STARTING_BALANCE } = require('../config')
-const { ec, cryptoHash } = require('../utils')
+import { Transaction, ITx } from './transaction'
+import { STARTING_BALANCE } from '../config'
+import { ec, cryptoHash } from '../utils'
+import { IBlockchain } from '../blockchain/blockchain.app'
 
-class Wallet {
-  constructor() {
-    this.balance = STARTING_BALANCE
-    this.keyPair = ec.genKeyPair()
-    this.publicKey = this.keyPair.getPublic().encode('hex')
-  }
+export type IWallet = Wallet
 
-  sign(data) {
+export class Wallet {
+  balance = STARTING_BALANCE
+  keyPair = ec.genKeyPair()
+  publicKey = this.keyPair.getPublic().encode('hex')
+
+  sign(data: any): {} {
     return this.keyPair.sign(cryptoHash(data))
   }
 
-  createTransaction({ recipient, amount, chain }) {
+  createTransaction({
+    recipient,
+    amount,
+    chain,
+  }: {
+    recipient: string
+    amount: number
+    chain: IBlockchain
+  }): ITx {
     if (chain) {
       this.balance = Wallet.calculateBalance({
         chain,
         address: this.publicKey,
       })
     }
-
     if (amount > this.balance) {
       throw new Error('Amount exceeds balance')
     }
@@ -28,7 +36,7 @@ class Wallet {
     return new Transaction({ senderWallet: this, recipient, amount })
   }
 
-  static calculateBalance({ chain, address }) {
+  static calculateBalance({ chain, address }: { chain: IBlockchain; address: string }): number {
     let outputsTotal = 0
     let hasConductedTransaction = false
 
@@ -47,5 +55,3 @@ class Wallet {
     return hasConductedTransaction ? outputsTotal : STARTING_BALANCE + outputsTotal
   }
 }
-
-module.exports = Wallet
