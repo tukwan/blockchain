@@ -1,6 +1,6 @@
-const Wallet = require('../wallet/wallet.app')
+import { Wallet } from '../wallet/wallet.app'
 
-function seedBlockchain(chain, wallet, transactionPool, transactionMiner) {
+export const seedBlockchain = (chain, wallet, transactionPool, transactionMiner) => {
   const walletA = wallet
   const walletB = new Wallet()
   const walletC = new Wallet()
@@ -44,5 +44,3 @@ function seedBlockchain(chain, wallet, transactionPool, transactionMiner) {
     transactionMiner.mineTransactions()
   }
 }
-
-module.exports = seedBlockchain

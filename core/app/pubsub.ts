@@ -1,4 +1,7 @@
-const PubNub = require('pubnub')
+import PubNub from 'pubnub'
+import { TransactionPool as ITransactionPoolClass } from '../wallet/transaction-pool'
+import { Blockchain as IBlockchainClass } from '../blockchain/blockchain.app'
+import { IWallet } from '../wallet/wallet.app'
 
 const credentials = {
   publishKey: 'pub-c-190af375-d9fe-4289-9dec-e028558356e0',
@@ -11,7 +14,12 @@ const CHANNELS = {
   TRANSACTION: 'TRANSACTION',
 }
 
-class PubSub {
+export class PubSub {
+  blockchain: IBlockchainClass
+  transactionPool: ITransactionPoolClass
+  wallet: IWallet
+  pubnub: any
+
   constructor({ blockchain, transactionPool, wallet }) {
     this.blockchain = blockchain
     this.transactionPool = transactionPool
@@ -72,5 +80,3 @@ class PubSub {
     })
   }
 }
-
-module.exports = PubSub

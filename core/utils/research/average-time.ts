@@ -1,4 +1,4 @@
-const Blockchain = require('../../blockchain/blockchain.app')
+import { Blockchain } from '../../blockchain/blockchain.app'
 
 const blockchain = new Blockchain()
 

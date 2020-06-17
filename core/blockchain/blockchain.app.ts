@@ -17,7 +17,7 @@ export class Blockchain {
     this.chain.push(newBlock)
   }
 
-  replaceChain(chain: IBlockchain, validateTransactions: boolean, onSuccess: () => {}): void {
+  replaceChain(chain: IBlockchain, validateTransactions?: boolean, onSuccess?: () => any): void {
     if (chain.length <= this.chain.length) {
       console.error('chain is not long enough', chain)
       return

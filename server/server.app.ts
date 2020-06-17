@@ -1,13 +1,13 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const path = require('path')
-const request = require('request')
-const Blockchain = require('../core/blockchain/blockchain.app')
-const PubSub = require('../core/app/pubsub')
-const TransactionPool = require('../core/wallet/transaction-pool')
-const Wallet = require('../core/wallet/wallet.app')
-const TransactionMiner = require('../core/app/transaction-miner')
-const seedBlockchain = require('../core/app/seed-blockchain')
+import express from 'express'
+import bodyParser from 'body-parser'
+import path from 'path'
+import request from 'request'
+import { Blockchain } from '../core/blockchain/blockchain.app'
+import { PubSub } from '../core/app/pubsub'
+import { TransactionPool } from '../core/wallet/transaction-pool'
+import { Wallet } from '../core/wallet/wallet.app'
+import { TransactionMiner } from '../core/app/transaction-miner'
+import { seedBlockchain } from '../core/app/seed-blockchain'
 
 const isDevelopment = process.env.ENV === 'development'
 
@@ -38,7 +38,7 @@ app.get('/api/blocks/length', (req, res) => {
 })
 
 app.get('/api/blocks/:id', (req, res) => {
-  const { id } = req.params
+  const id = Number(req.params.id)
   const { length } = blockchain.chain
   const blocksReversed = blockchain.chain.slice().reverse()
   let startIndex = (id - 1) * 5
