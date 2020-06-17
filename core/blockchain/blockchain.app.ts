@@ -1,14 +1,15 @@
-const { cryptoHash } = require('../utils')
-const { REWARD_INPUT, MINING_REWARD } = require('../config')
-const Transaction = require('../wallet/transaction')
-const Wallet = require('../wallet/wallet.app')
+import { cryptoHash } from '../utils'
+import { REWARD_INPUT, MINING_REWARD } from '../config'
+import { Block } from './block'
+import { Transaction } from '../wallet/transaction'
+import { Wallet } from '../wallet/wallet.app'
 
-class Blockchain {
-  constructor() {
-    this.chain = [Block.genesis()]
-  }
+export type IBlockchain = Blockchain['chain']
 
-  addBlock({ data }) {
+export class Blockchain {
+  chain = [Block.genesis()]
+
+  addBlock({ data }: { data: any }): void {
     const newBlock = Block.mineBlock({
       lastBlock: this.chain[this.chain.length - 1],
       data,
@@ -16,7 +17,7 @@ class Blockchain {
     this.chain.push(newBlock)
   }
 
-  replaceChain(chain, validateTransactions, onSuccess) {
+  replaceChain(chain: IBlockchain, validateTransactions: boolean, onSuccess: () => {}): void {
     if (chain.length <= this.chain.length) {
       console.error('chain is not long enough', chain)
       return
@@ -25,7 +26,7 @@ class Blockchain {
       console.error('chain is invalid', chain)
       return
     }
-    if(validateTransactions && !this.validTransactionData({ chain })) {
+    if (validateTransactions && !this.validTransactionData({ chain })) {
       console.error('chain has invalid data', chain)
       return
     }
@@ -35,7 +36,7 @@ class Blockchain {
     this.chain = chain
   }
 
-  validTransactionData({ chain }) {
+  validTransactionData({ chain }: { chain: IBlockchain }): boolean {
     for (let i = 0; i < chain.length; i++) {
       const block = chain[i]
       const transactionSet = new Set()
@@ -83,7 +84,7 @@ class Blockchain {
     return true
   }
 
-  static isValidChain(chain) {
+  static isValidChain(chain: IBlockchain): boolean {
     if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) return false
 
     for (let i = 1; i < chain.length; i++) {
@@ -96,11 +97,9 @@ class Blockchain {
       const validateHash = cryptoHash(timestamp, lastHash, nonce, difficulty, data)
       if (hash !== validateHash) return false
 
-      if (Math.abs(lastDifficulty - difficulty > 1)) return false
+      if (Math.abs(lastDifficulty - difficulty) > 1) return false
     }
 
     return true
   }
 }
-
-module.exports = Blockchain

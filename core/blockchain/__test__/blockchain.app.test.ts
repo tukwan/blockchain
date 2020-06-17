@@ -1,9 +1,9 @@
-const R = require('ramda')
-const Blockchain = require('../blockchain.app')
-const Block = require('../block')
-const { cryptoHash } = require('../../utils')
-const Wallet = require('../../wallet/wallet.app')
-const Transaction = require('../../wallet/transaction')
+import R from 'ramda'
+import { Blockchain } from '../blockchain.app'
+import { Block } from '../block'
+import { cryptoHash } from '../../utils'
+import { Wallet } from '../../wallet/wallet.app'
+import { Transaction } from '../../wallet/transaction'
 
 describe('Blockchain', () => {
   let blockchain, newChain, originalChain, errorMock, logMock
@@ -18,7 +18,7 @@ describe('Blockchain', () => {
     global.console.log = logMock
   })
 
-  it('containas a `chain` Array of instance', () => {
+  it('contains a `chain` Array of instance', () => {
     expect(blockchain.chain instanceof Array).toBe(true)
   })
 
@@ -42,7 +42,7 @@ describe('Blockchain', () => {
       })
     })
 
-    describe('when the chain starts with the genesis block and has muliple blocks', () => {
+    describe('when the chain starts with the genesis block and has multiple blocks', () => {
       beforeEach(() => {
         blockchain.addBlock({ data: 'a1' })
         blockchain.addBlock({ data: 'a2' })
@@ -91,7 +91,7 @@ describe('Blockchain', () => {
 
   describe('replaceChain()', () => {
     describe('when the new chain is not longer', () => {
-      it('does not repleace the chain', () => {
+      it('does not replace the chain', () => {
         newChain.chain[0] = { data: 'a1' }
         blockchain.replaceChain(newChain.chain)
         expect(blockchain.chain).toEqual(originalChain)
@@ -106,7 +106,7 @@ describe('Blockchain', () => {
       })
 
       describe('and the new chain is invalid', () => {
-        it('does not repleace the chain', () => {
+        it('does not replace the chain', () => {
           newChain.chain[2].hash = 'fake hash'
           blockchain.replaceChain(newChain.chain)
           expect(blockchain.chain).toEqual(originalChain)
@@ -151,7 +151,7 @@ describe('Blockchain', () => {
       })
     })
 
-    describe('and the transaction data has multuple rewards', () => {
+    describe('and the transaction data has multiple rewards', () => {
       it('returns false and logs an error', () => {
         newChain.addBlock({ data: [transaction, rewardTransaction, rewardTransaction] })
         expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false)
@@ -203,7 +203,7 @@ describe('Blockchain', () => {
       })
     })
 
-    describe('and a block contains multiple indentical transactions', () => {
+    describe('and a block contains multiple identical transactions', () => {
       it('returns false and logs an error', () => {
         newChain.addBlock({ data: [transaction, transaction, transaction, rewardTransaction] })
         expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false)
