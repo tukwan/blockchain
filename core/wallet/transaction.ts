@@ -1,22 +1,64 @@
-const uuid = require('uuid').v1
-const { verifySignature } = require('../utils')
-const { REWARD_INPUT, MINING_REWARD } = require('../config')
+import { v1 as uuid } from 'uuid'
+import { verifySignature } from '../utils'
+import { REWARD_INPUT, MINING_REWARD } from '../config'
+import { IWallet } from '../wallet/wallet.app'
 
-class Transaction {
-  constructor({ senderWallet, recipient, amount, outputMap, input }) {
+interface ITxInput {
+  timestamp?: number
+  amount?: number
+  address: string
+  signature?: any
+}
+interface ITxOutput {
+  [address: string]: number
+}
+export type ITx = Transaction
+
+export class Transaction {
+  id: number
+  outputMap: ITxOutput
+  input: ITxInput
+
+  constructor({
+    senderWallet,
+    recipient,
+    amount,
+    outputMap,
+    input,
+  }: {
+    senderWallet?: IWallet
+    recipient?: string
+    amount?: number
+    outputMap?: ITxOutput
+    input?: ITxInput
+  }) {
     this.id = uuid()
     this.outputMap = outputMap || this.createOutputMap({ senderWallet, recipient, amount })
     this.input = input || this.createInput({ senderWallet, outputMap: this.outputMap })
   }
 
-  createOutputMap({ senderWallet, recipient, amount }) {
+  createOutputMap({
+    senderWallet,
+    recipient,
+    amount,
+  }: {
+    senderWallet: IWallet
+    recipient: string
+    amount: number
+  }): ITxOutput {
     const outputMap = {}
     outputMap[recipient] = amount
     outputMap[senderWallet.publicKey] = senderWallet.balance - amount
     return outputMap
   }
 
-  createInput({ senderWallet, outputMap }) {
+  createInput({
+    senderWallet,
+    outputMap,
+  }: {
+    senderWallet: IWallet
+    outputMap: ITxOutput
+  }): ITxInput {
     return {
       timestamp: Date.now(),
       amount: senderWallet.balance,
@@ -25,7 +67,15 @@ class Transaction {
     }
   }
 
-  update({ senderWallet, recipient, amount }) {
+  update({
+    senderWallet,
+    recipient,
+    amount,
+  }: {
+    senderWallet: IWallet
+    recipient: string
+    amount: number
+  }): void {
     if (amount > this.outputMap[senderWallet.publicKey]) throw new Error('Amount exceeds balance')
 
     if (!this.outputMap[recipient]) {
@@ -39,7 +89,7 @@ class Transaction {
     this.input = this.createInput({ senderWallet, outputMap: this.outputMap })
   }
 
-  static validTransaction(transaction) {
+  static validTransaction(transaction: ITx): boolean {
     const {
       input: { address, amount, signature },
       outputMap,
@@ -61,12 +111,10 @@ class Transaction {
     return true
   }
 
-  static rewardTransaction({ minerWallet }) {
+  static rewardTransaction({ minerWallet }: { minerWallet: IWallet }): ITx {
     return new this({
       input: REWARD_INPUT,
       outputMap: { [minerWallet.publicKey]: MINING_REWARD },
     })
   }
 }
-
-module.exports = Transaction

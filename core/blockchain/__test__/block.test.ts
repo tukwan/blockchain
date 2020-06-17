@@ -13,7 +13,7 @@ describe('Block', () => {
 
   const block = new Block({ timestamp, lastHash, hash, nonce, difficulty, data })
 
-  it('has timestamp, lastHash, hash and data', () => {
+  it('has timestamp, lastHash, hash, nonce, difficulty, data', () => {
     expect(block.timestamp).toEqual(timestamp)
     expect(block.lastHash).toEqual(lastHash)
     expect(block.hash).toEqual(hash)

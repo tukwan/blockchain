@@ -1,7 +1,7 @@
-const Transaction = require('../transaction')
-const Wallet = require('../wallet.app')
-const { verifySignature } = require('../../utils')
-const { REWARD_INPUT, MINING_REWARD } = require('../../config')
+import { Transaction } from '../transaction'
+import { Wallet } from '../wallet.app'
+import { verifySignature } from '../../utils'
+import { REWARD_INPUT, MINING_REWARD } from '../../config'
 
 describe('Transaction', () => {
   let transaction, senderWallet, recipient, amount
@@ -125,7 +125,7 @@ describe('Transaction', () => {
         expect(transaction.outputMap[nextRecipient]).toEqual(nextAmount)
       })
 
-      it('substracts the amount from the original sender output amount', () => {
+      it('subtracts the amount from the original sender output amount', () => {
         expect(transaction.outputMap[senderWallet.publicKey]).toEqual(
           originalSenderOutput - nextAmount
         )

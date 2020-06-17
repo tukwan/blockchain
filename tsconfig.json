@@ -12,10 +12,8 @@
     "isolatedModules": false,
     "sourceMap": true,
     "outDir": "build",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*", "core/types/*"]
-    }
+    "baseUrl": "."
   },
-  "include": ["core", "server"]
+  "include": ["core", "server"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }
