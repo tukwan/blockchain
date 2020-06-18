@@ -1,4 +1,6 @@
+import http from 'http'
 import express from 'express'
+import io from 'socket.io'
 import bodyParser from 'body-parser'
 import path from 'path'
 import request from 'request'
@@ -12,8 +14,19 @@ import { seedBlockchain } from '../core/app/seed-blockchain'
 const isDevelopment = process.env.ENV === 'development'
 
 const app = express()
-app.use(bodyParser.json())
 
+// socket io
+const server = http.createServer(app);
+const ioi = io(server);
+
+ioi.on('connection', (socket) => {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', (data) => {
+    console.log(data);
+  });
+
+
+app.use(bodyParser.json())
 // Client react-app
 app.use(express.static(path.join(__dirname, '../client/build')))
 app.get('/', function (req, res) {
@@ -127,7 +140,7 @@ if (process.env.GENERATE_PEER_PORT === 'true') {
 }
 
 const PORT = process.env.PORT || PEER_PORT || DEFAULT_PORT
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`)
 
   if (PORT !== DEFAULT_PORT) {
