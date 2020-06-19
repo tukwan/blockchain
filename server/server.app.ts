@@ -1,6 +1,6 @@
 import http from 'http'
 import express from 'express'
-import io from 'socket.io'
+import socketIo from 'socket.io'
 import bodyParser from 'body-parser'
 import path from 'path'
 import request from 'request'
@@ -16,15 +16,26 @@ const isDevelopment = process.env.ENV === 'development'
 const app = express()
 
 // socket io
-const server = http.createServer(app);
-const ioi = io(server);
+const server = http.createServer(app)
+const io = socketIo(server)
+let interval
 
-ioi.on('connection', (socket) => {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', (data) => {
-    console.log(data);
-  });
+io.on('connection', (socket) => {
+  console.log('New client connected')
 
+  if (interval) clearInterval(interval)
+  interval = setInterval(() => getApiAndEmit(socket), 1000)
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected')
+    clearInterval(interval)
+  })
+})
+
+const getApiAndEmit = (socket) => {
+  const response = new Date()
+  socket.emit('FromAPI', response)
+}
 
 app.use(bodyParser.json())
 // Client react-app
@@ -131,7 +142,7 @@ const syncWithRootState = () => {
 }
 
 // seed a blockchain
-if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
+// if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
 
 // dev-peer
 let PEER_PORT
