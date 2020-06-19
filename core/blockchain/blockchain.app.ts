@@ -9,11 +9,14 @@ export type IBlockchain = Blockchain['chain']
 export class Blockchain {
   chain = [Block.genesis()]
 
-  addBlock({ data }: { data: any }): void {
-    const newBlock = Block.mineBlock({
-      lastBlock: this.chain[this.chain.length - 1],
-      data,
-    })
+  addBlock({ data }: { data: any }, callback): void {
+    const newBlock = Block.mineBlock(
+      {
+        lastBlock: this.chain[this.chain.length - 1],
+        data,
+      },
+      callback
+    )
     this.chain.push(newBlock)
   }
 

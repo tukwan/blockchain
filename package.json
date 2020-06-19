@@ -6,7 +6,6 @@
   "license": "MIT",
   "private": true,
   "main": "server/server.app.js",
-  "type": "module",
   "engines": {
     "node": "12.16.3"
   },

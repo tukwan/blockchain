@@ -1,27 +1,21 @@
 import React, { useState, useEffect, FC } from 'react'
+import socketIOClient from 'socket.io-client'
 import { Transaction, ITransaction } from './transaction'
 
 interface ITransactionPool {
   [hash: string]: ITransaction
 }
 
-const POOL_INTERVAL_MS = 10000
-
 export const TransactionPool: FC = () => {
   const [transactionPoolMap, setTransactionPoolMap] = useState<ITransactionPool>({})
 
   useEffect(() => {
-    const fetchTransactionPoolMap = async () => {
-      const response = await fetch('/api/transaction-pool-map')
-      const json = await response.json()
-      setTransactionPoolMap(json)
-    }
-    fetchTransactionPoolMap()
-
-    const intervalFetchPoolMap = setInterval(() => {
-      fetchTransactionPoolMap()
-    }, POOL_INTERVAL_MS)
-    return () => clearInterval(intervalFetchPoolMap)
+    const socket = socketIOClient('http://localhost:8080')
+    socket.on('FromAPI', (data) => {
+      console.log('FromAPI', data)
+      setTransactionPoolMap(data)
+    })
+    return () => socket.disconnect()
   }, [])
 
   const fetchMineTransactions = async () => {

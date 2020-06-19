@@ -18,24 +18,14 @@ const app = express()
 // socket io
 const server = http.createServer(app)
 const io = socketIo(server)
-let interval
 
 io.on('connection', (socket) => {
   console.log('New client connected')
 
-  if (interval) clearInterval(interval)
-  interval = setInterval(() => getApiAndEmit(socket), 1000)
-
   socket.on('disconnect', () => {
     console.log('Client disconnected')
-    clearInterval(interval)
   })
 })
-
-const getApiAndEmit = (socket) => {
-  const response = new Date()
-  socket.emit('FromAPI', response)
-}
 
 app.use(bodyParser.json())
 // Client react-app
@@ -74,7 +64,7 @@ app.get('/api/blocks/:id', (req, res) => {
 
 app.post('/api/mine', (req, res) => {
   const { data } = req.body
-  blockchain.addBlock({ data })
+  blockchain.addBlock({ data }, () => {})
   pubsub.broadcastChain()
   res.redirect('/api/blocks')
 })
@@ -94,6 +84,9 @@ app.post('/api/transact', (req, res) => {
   }
   transactionPool.setTransaction(transaction)
   pubsub.broadcastTransaction(transaction)
+
+  io.emit('FromAPI', transactionPool.transactionMap)
+
   res.json({ type: 'success', transaction })
 })
 
@@ -102,7 +95,11 @@ app.get('/api/transaction-pool-map', (req, res) => {
 })
 
 app.get('/api/mine-transactions', (req, res) => {
-  transactionMiner.mineTransactions()
+  const miningStats = (stats) => {
+    console.log(stats)
+    io.emit('FromAPIMine', stats)
+  }
+  transactionMiner.mineTransactions(miningStats)
   res.redirect('/api/blocks')
 })
 
@@ -142,7 +139,7 @@ const syncWithRootState = () => {
 }
 
 // seed a blockchain
-// if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
+if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
 
 // dev-peer
 let PEER_PORT
