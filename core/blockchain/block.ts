@@ -26,22 +26,31 @@ export class Block implements IBlock {
     return new this(GENESIS_DATA)
   }
 
-  static mineBlock(
-    { lastBlock, data }: { lastBlock: IBlock; data: any[] },
-    mineBlockStats
-  ): IBlock {
+  static mineBlock({ lastBlock, data }: { lastBlock: IBlock; data: any[] }, mineBlockStats?): IBlock {
     const lastHash = lastBlock.hash
     let hash: string, timestamp: number
     let { difficulty } = lastBlock
     let nonce = 0
+    let hashBinary
 
     do {
       nonce++
       timestamp = Date.now()
       difficulty = Block.adjustDifficulty({ originalBlock: lastBlock, timestamp })
       hash = cryptoHash(timestamp, lastHash, nonce, difficulty, data)
-      if (mineBlockStats) mineBlockStats({ difficulty, hash })
-    } while (hexToBinary(hash).substring(0, difficulty) !== '0'.repeat(difficulty))
+      hashBinary = hexToBinary(hash)
+
+      if (mineBlockStats) {
+        mineBlockStats({
+          nonce,
+          timestamp,
+          difficulty,
+          hash,
+          hashBinary: `${hashBinary.substring(0, 64)}...`,
+        })
+      }
+
+    } while (hashBinary.substring(0, difficulty) !== '0'.repeat(difficulty))
 
     return new this({
       timestamp,
@@ -53,13 +62,7 @@ export class Block implements IBlock {
     })
   }
 
-  static adjustDifficulty({
-    originalBlock,
-    timestamp,
-  }: {
-    originalBlock: IBlock
-    timestamp: number
-  }): number {
+  static adjustDifficulty({ originalBlock, timestamp }: { originalBlock: IBlock; timestamp: number }): number {
     const { difficulty } = originalBlock
     if (difficulty < 1) return 1
     if (timestamp - originalBlock.timestamp > MINE_RATE) return difficulty - 1

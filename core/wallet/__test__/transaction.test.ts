@@ -121,7 +121,6 @@ describe('Transaction', () => {
       })
 
       it('outputs the amount to the next recipient', () => {
-        transaction.outputMap //?
         expect(transaction.outputMap[nextRecipient]).toEqual(nextAmount)
       })
 
@@ -158,7 +157,7 @@ describe('Transaction', () => {
           expect(transaction.outputMap[nextRecipient]).toEqual(nextAmount + addedAmount)
         })
 
-        it('substracts the amount from the original sender output amount', () => {
+        it('subtracts the amount from the original sender output amount', () => {
           expect(transaction.outputMap[senderWallet.publicKey]).toEqual(
             originalSenderOutput - nextAmount - addedAmount
           )

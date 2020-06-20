@@ -41,6 +41,11 @@ export const seedBlockchain = (chain, wallet, transactionPool, transactionMiner)
       walletActionC()
     }
 
+    // const mineBlockStats = (stats) => {
+    //   console.log(stats)
+    // }
+    // transactionMiner.mineTransactions(mineBlockStats)
+
     transactionMiner.mineTransactions()
   }
 }

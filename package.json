@@ -14,7 +14,7 @@
     "install:client": "yarn --cwd client install",
     "start": "yarn build:client && node build/server/server.app.js",
     "build:client": "yarn --cwd client build",
-    "dev-ts": "nodemon",
+    "dev-ts": "ENV='development' nodemon",
     "dev": "ENV='development' nodemon build/server.app.js",
     "dev-peer": "GENERATE_PEER_PORT='true' nodemon build/server/server.app.js",
     "test": "jest --watchAll",

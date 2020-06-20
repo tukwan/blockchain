@@ -64,7 +64,7 @@ app.get('/api/blocks/:id', (req, res) => {
 
 app.post('/api/mine', (req, res) => {
   const { data } = req.body
-  blockchain.addBlock({ data }, () => {})
+  blockchain.addBlock({ data })
   pubsub.broadcastChain()
   res.redirect('/api/blocks')
 })
@@ -95,11 +95,11 @@ app.get('/api/transaction-pool-map', (req, res) => {
 })
 
 app.get('/api/mine-transactions', (req, res) => {
-  const miningStats = (stats) => {
+  const mineBlockStats = (stats) => {
     console.log(stats)
     io.emit('FromAPIMine', stats)
   }
-  transactionMiner.mineTransactions(miningStats)
+  transactionMiner.mineTransactions(mineBlockStats)
   res.redirect('/api/blocks')
 })
 
@@ -139,7 +139,7 @@ const syncWithRootState = () => {
 }
 
 // seed a blockchain
-if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
+// if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
 
 // dev-peer
 let PEER_PORT

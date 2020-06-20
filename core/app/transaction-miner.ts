@@ -16,10 +16,10 @@ export class TransactionMiner {
     this.pubsub = pubsub
   }
 
-  mineTransactions(callback: any): void {
+  mineTransactions(mineBlockStats?): void {
     const validTransactions = this.transactionPool.validTransactions()
     validTransactions.push(Transaction.rewardTransaction({ minerWallet: this.wallet }))
-    this.blockchain.addBlock({ data: validTransactions }, callback)
+    this.blockchain.addBlock({ data: validTransactions }, mineBlockStats)
     this.pubsub.broadcastChain()
     this.transactionPool.clear()
   }

@@ -1,6 +1,6 @@
 import { IBlock } from './blockchain/block'
 
-const MINE_RATE = 1000
+const MINE_RATE = 5000
 const INIT_DIFFICULTY = 1
 const STARTING_BALANCE = 1000
 
