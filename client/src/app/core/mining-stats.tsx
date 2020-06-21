@@ -16,19 +16,20 @@ export const MiningStats: FC = () => {
   }, [])
 
   return (
-    <div>
+    <div className="mining">
       <h2>Mining stats:</h2>
-      {miningStats.map(({ hash, hashBinary, difficulty, nonce, timestamp }) => (
-        <div key={hash}>
-          <div>Hash binary: {hashBinary}</div>
-          <div>Hash hex: {hash}</div>
-          <div>Difficulty: {difficulty}</div>
-          <div>Nonce: {nonce}</div>
-          <div>Time: {new Date(timestamp).toLocaleString()}</div>
-          <hr />
-        </div>
-      ))}
-      <h3>TODO:Time to mine block: 853ms. Difficulty: 20. Average time: 375.43ms</h3>
+      <div className="mining-list">
+        {miningStats.map(({ hash, hashBinary, difficulty, nonce, timestamp }) => (
+          <div key={hash}>
+            <div>Hash binary: {hashBinary}</div>
+            <div>Hash hex: {hash}</div>
+            <div>Difficulty: {difficulty}</div>
+            <div>Nonce: {nonce}</div>
+            <div>Time: {new Date(timestamp).toLocaleString()}</div>
+            <hr />
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

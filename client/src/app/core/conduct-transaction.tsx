@@ -50,10 +50,10 @@ export const ConductTransaction: FC = () => {
   return (
     <div>
       <h2>Conduct a Transaction:</h2>
-      <h3>Known addresses:</h3>
+      {/* <h3>Known addresses:</h3>
       {knownAddresses.map((knownAddresses) => (
         <div key={knownAddresses}>{`${knownAddresses.substring(0, 35)}...`}</div>
-      ))}
+      ))} */}
       <br />
       <form onSubmit={printValues}>
         <label>

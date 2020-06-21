@@ -17,13 +17,13 @@ export const Blocks: FC = () => {
   return (
     <div>
       <h2>Blocks:</h2>
-      <ul>
+      <div className="blocks-list">
         {blocks.map((block) => (
-          <li key={block.hash}>
+          <div key={block.hash}>
             <Block block={block} />
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

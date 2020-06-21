@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import './app.scss'
 import { Wallet } from './core/wallet'
 import { ConductTransaction } from './core/conduct-transaction'
 import { Blocks } from './core/blocks'
@@ -12,14 +13,14 @@ export const App: FC = () => {
         <div className="col">
           <Wallet />
           <ConductTransaction />
+          <TransactionPool />
         </div>
 
-        <div className="col">
+        <div className="col-5">
           <Blocks />
         </div>
 
         <div className="col">
-          <TransactionPool />
           <MiningStats />
         </div>
       </div>

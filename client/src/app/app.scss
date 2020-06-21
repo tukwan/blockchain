@@ -1,0 +1,52 @@
+html {
+  font-size: 14px;
+}
+
+body {
+  overflow: hidden;
+}
+
+a {
+  color: #000;
+
+  &:focus,
+  &:hover {
+    color: #000;
+    text-decoration: none;
+  }
+}
+
+// ------ Blocks ------
+.blocks-list {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.blocks > h1 {
+}
+
+// ------ Transaction Pool ------
+.pool {
+  height: 40%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.pool-list {
+  flex: 1;
+  overflow-y: scroll;
+}
+
+// ------ Mining Stats ------
+.mining {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.mining-list {
+  flex: 1;
+  overflow-y: scroll;
+}

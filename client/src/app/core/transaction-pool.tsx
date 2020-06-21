@@ -25,15 +25,17 @@ export const TransactionPool: FC = () => {
   }
 
   return (
-    <div>
+    <div className="pool">
       <h2>Transaction Pool:</h2>
       <button onClick={fetchMineTransactions}>Mine Transactions</button>
-      {Object.values(transactionPoolMap).map((transaction) => (
-        <div key={transaction.id}>
-          <hr />
-          <Transaction transaction={transaction} />
-        </div>
-      ))}
+      <div className="pool-list">
+        {Object.values(transactionPoolMap).map((transaction) => (
+          <div key={transaction.id}>
+            <hr />
+            <Transaction transaction={transaction} />
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
