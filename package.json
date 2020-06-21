@@ -15,10 +15,10 @@
     "start": "yarn build:client && node build/server/server.app.js",
     "build:client": "yarn --cwd client build",
     "dev-ts": "ENV='development' nodemon",
-    "dev": "ENV='development' nodemon build/server.app.js",
+    "dev": "ENV='development' node build/server/server.app.js",
     "dev-peer": "GENERATE_PEER_PORT='true' nodemon build/server/server.app.js",
     "test": "jest --watchAll",
-    "ts": "tsc -w"
+    "tsc": "tsc"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

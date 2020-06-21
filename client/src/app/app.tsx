@@ -7,12 +7,22 @@ import { MiningStats } from './core/mining-stats'
 
 export const App: FC = () => {
   return (
-    <>
-      <Wallet />
-      <ConductTransaction />
-      <TransactionPool />
-      <MiningStats />
-      <Blocks />
-    </>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col">
+          <Wallet />
+          <ConductTransaction />
+        </div>
+
+        <div className="col">
+          <Blocks />
+        </div>
+
+        <div className="col">
+          <TransactionPool />
+          <MiningStats />
+        </div>
+      </div>
+    </div>
   )
 }

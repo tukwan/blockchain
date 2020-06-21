@@ -139,7 +139,7 @@ const syncWithRootState = () => {
 }
 
 // seed a blockchain
-// if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
+if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
 
 // dev-peer
 let PEER_PORT
