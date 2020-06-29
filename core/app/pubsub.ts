@@ -4,9 +4,9 @@ import { Blockchain as IBlockchainClass } from '../blockchain/blockchain.app'
 import { IWallet } from '../wallet/wallet.app'
 
 const credentials = {
+  ssl: true,
   publishKey: 'pub-c-190af375-d9fe-4289-9dec-e028558356e0',
   subscribeKey: 'sub-c-0df161da-a56a-11ea-9d71-da51a68c7938',
-  secretKey: 'sec-c-YjYwYjkyNTgtNDk0MS00OTlkLTllMjAtNDEwZDJlOGEzMGU3', // just for tests
 }
 
 const CHANNELS = {

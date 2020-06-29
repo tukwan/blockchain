@@ -5,7 +5,7 @@ export const MiningStats: FC = () => {
   const [miningStats, setMiningStats] = useState<any>([])
 
   useEffect(() => {
-    const socket = socketIOClient('http://localhost:8080')
+    const socket = socketIOClient('https://private-block.herokuapp.com/')
     socket.on('FromAPIMine', (data) => {
       setMiningStats((prevStats) => {
         const stats = prevStats.length > 5 ? prevStats.pop() : prevStats
