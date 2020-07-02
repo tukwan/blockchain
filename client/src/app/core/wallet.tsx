@@ -23,7 +23,7 @@ export const Wallet: FC = () => {
   const { address, balance } = walletInfo
   return (
     <div>
-      <h2>Wallet:</h2>
+      <h2>Wallet</h2>
       <p>
         <b>Address:</b> {`${address.substring(0, 35)}...`}
       </p>

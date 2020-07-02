@@ -16,7 +16,7 @@ export const Blocks: FC = () => {
 
   return (
     <div>
-      <h2>Blocks:</h2>
+      <h2>Blocks</h2>
       <div className="blocks-list">
         {blocks.map((block) => (
           <div key={block.hash}>

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, FC } from 'react'
 import socketIOClient from 'socket.io-client'
+import { CONFIG } from '../../config'
 
 export const MiningStats: FC = () => {
   const [miningStats, setMiningStats] = useState<any>([])
 
   useEffect(() => {
-    const socket = socketIOClient('https://private-block.herokuapp.com/')
+    const socket = socketIOClient(CONFIG.API_URL)
     socket.on('FromAPIMine', (data) => {
       setMiningStats((prevStats) => {
         const stats = prevStats.length > 5 ? prevStats.pop() : prevStats
@@ -17,7 +18,7 @@ export const MiningStats: FC = () => {
 
   return (
     <div className="mining">
-      <h2>Mining stats:</h2>
+      <h2>Mining</h2>
       <div className="mining-list">
         {miningStats.map(({ hash, hashBinary, difficulty, nonce, timestamp }) => (
           <div key={hash}>
