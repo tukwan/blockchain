@@ -12,23 +12,27 @@ export const TransactionPool: FC = () => {
 
   useEffect(() => {
     const socket = socketIOClient(CONFIG.API_URL)
-    socket.on('FromAPI', (data) => {
-      console.log('FromAPI', data)
+    socket.on('FromAPIPool', (data) => {
+      console.log('FromAPIPool', data)
       setTransactionPoolMap(data)
     })
+    // fetchMineTransactions()
     return () => socket.disconnect()
   }, [])
 
   const fetchMineTransactions = async () => {
     const response = await fetch('/api/mine-transactions')
-    const json = await response.json()
-    console.log('mined', json)
+    const data = await response.json()
+    // console.log(data)
+    // setTransactionPoolMap(data)
   }
 
   return (
     <div className="pool">
       <h2>Transaction Pool</h2>
-      <button className="btn btn-secondary" onClick={fetchMineTransactions}>Mine Transactions</button>
+      <button className="btn btn-secondary" onClick={fetchMineTransactions}>
+        Mine Transactions
+      </button>
       <div className="pool-list">
         {Object.values(transactionPoolMap).map((transaction) => (
           <div key={transaction.id}>

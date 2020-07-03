@@ -25,7 +25,7 @@ export const Wallet: FC = () => {
     <div>
       <h2>Wallet</h2>
       <p>
-        <b>Address:</b> {`${address.substring(0, 35)}...`}
+        <b>Address:</b> {`${address.substring(0, 15)}...`}
       </p>
       <p>
         <b>Balance:</b> {balance}

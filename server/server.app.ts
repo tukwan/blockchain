@@ -84,9 +84,7 @@ app.post('/api/transact', (req, res) => {
   }
   transactionPool.setTransaction(transaction)
   pubsub.broadcastTransaction(transaction)
-
-  io.emit('FromAPI', transactionPool.transactionMap)
-
+  io.emit('FromAPIPool', transactionPool.transactionMap)
   res.json({ type: 'success', transaction })
 })
 
@@ -96,10 +94,10 @@ app.get('/api/transaction-pool-map', (req, res) => {
 
 app.get('/api/mine-transactions', (req, res) => {
   const mineBlockStats = (stats) => {
-    console.log(stats)
     io.emit('FromAPIMine', stats)
   }
   transactionMiner.mineTransactions(mineBlockStats)
+  io.emit('FromAPIMineFinished')
   res.redirect('/api/blocks')
 })
 
@@ -139,7 +137,8 @@ const syncWithRootState = () => {
 }
 
 // seed a blockchain
-if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
+// if (isDevelopment) seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
+seedBlockchain(blockchain, wallet, transactionPool, transactionMiner)
 
 // dev-peer
 let PEER_PORT

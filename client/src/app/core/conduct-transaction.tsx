@@ -31,8 +31,8 @@ export const ConductTransaction: FC = () => {
       body: JSON.stringify({ recipient, amount: Number(amount) }),
     })
 
-    const tx = await response.json()
-    console.log(tx)
+    // const tx = await response.json()
+    // console.log(tx)
   }
 
   const printValues = (e: FormEvent) => {
