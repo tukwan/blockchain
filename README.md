@@ -29,7 +29,7 @@ Bitcoin's implementation of Blockchain in JS.
 * React
 * RxJS
 * Heroku
-* Test-driven development (TDD) 
+* Test-driven development (TDD)
 * Jest
 
 ## Project Tree
@@ -99,3 +99,8 @@ Bitcoin's implementation of Blockchain in JS.
 ├── tsconfig.json
 └── yarn.lock
 ```
+
+## License
+>You can check out the full license [here](https://github.com/deployAt/blockchain/blob/master/LICENSE)
+
+This project is licensed under the terms of the **MIT** license.
