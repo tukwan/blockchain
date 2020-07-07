@@ -1,4 +1,4 @@
-# Private Blockchain
+# Bitcoin Blockchain
 
 Bitcoin's implementation of Blockchain in JS.
 
